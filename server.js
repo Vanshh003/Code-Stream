@@ -3,6 +3,7 @@ const express = require('express');
 const {Server} = require('socket.io');
 const http = require('http');
 const ACTIONS = require('./src/Actions');
+require("dotenv").config();
 
 const app = express();
 const server = http.createServer(app);
