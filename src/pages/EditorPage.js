@@ -9,6 +9,7 @@ import { useLocation, useNavigate, Navigate, useParams } from 'react-router-dom'
 
 const EditorPage = () => {
     const socketRef = useRef(null);
+    const codeRef = useRef(null);
     const location = useLocation();
     const {roomId} = useParams();
     const reactNavigator = useNavigate();
@@ -17,7 +18,6 @@ const EditorPage = () => {
     useEffect(() => {
         const init = async () => {
             socketRef.current = await initSocket();
-
             socketRef.current.on('connect_error', (err) => handleErrors(err));
             socketRef.current.on('connection_failed', (err) => handleErrors(err));
 
@@ -40,6 +40,10 @@ const EditorPage = () => {
                 }
 
                 setClients(clients);
+                socketRef.current.emit(ACTIONS.SYNC_CODE, {
+                    code: codeRef.current,
+                    socketId,
+                });
             });
 
             // listening for disconnected
@@ -47,7 +51,6 @@ const EditorPage = () => {
                 ACTIONS.DISCONNECTED, 
                 ({socketId, username}) => {
                     toast.success(`${username} left the room`)
-                
                     setClients((prev) => {
                         return prev.filter(
                             (client) => client.socketId !== socketId
@@ -116,7 +119,13 @@ const EditorPage = () => {
 
             </div>
             <div className='editorWrap'>
-                <EditorComponent />
+                <EditorComponent
+                socketRef={socketRef}
+                roomId={roomId}
+                onCodeChange={(code) => {
+                    codeRef.current = code;
+                }} 
+                />
             </div>
         </div>
     );

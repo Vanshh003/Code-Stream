@@ -1,9 +1,7 @@
-
 const express = require('express');
 const {Server} = require('socket.io');
 const http = require('http');
 const ACTIONS = require('./src/Actions');
-require("dotenv").config();
 
 const app = express();
 const server = http.createServer(app);
@@ -39,6 +37,14 @@ io.on('connection', (socket) => {
         });
     });
 
+    socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
+        socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
+    });
+
+    socket.on(ACTIONS.SYNC_CODE, ({ socketId, code }) => {
+        io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });
+    });
+
     // browser band hojata hai ya page close krdeta hai agr user
     socket.on('disconnecting', () => {
         const rooms = [...socket.rooms];
@@ -56,5 +62,5 @@ io.on('connection', (socket) => {
 });
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = 8080;
 server.listen(PORT, () => console.log(`listening on port ${PORT}`));

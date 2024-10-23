@@ -1,5 +1,3 @@
-// const {io} = require('socket.io-client');
-
 import {io} from 'socket.io-client';
 
 export const initSocket = async () => {
@@ -10,5 +8,12 @@ export const initSocket = async () => {
         transports: ['websocket'],
     };
 
-    return io(process.env.REACT_APP_BACKEND_URL, options)
+    console.log(process.env);
+    const socket = io("http://localhost:8080", options);
+    
+    socket.on('connect_error', (err) => {
+        console.error('Socket connection error:', err);
+    });
+
+    return socket;
 }
