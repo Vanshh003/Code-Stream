@@ -9,7 +9,7 @@ export const initSocket = async () => {
     };
 
     console.log(process.env);
-    const socket = io("http://localhost:8080", options);
+    const socket = io("http://localhost:8000", options);
     
     socket.on('connect_error', (err) => {
         console.error('Socket connection error:', err);
