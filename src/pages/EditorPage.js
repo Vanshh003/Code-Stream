@@ -29,12 +29,12 @@ const EditorPage = () => {
 
             socketRef.current.emit(ACTIONS.JOIN, {
                 roomId, 
-                username: location.state?.username,
+                username: location.state ? location.state.username : undefined,
             });
 
             // listening for joined event
             socketRef.current.on(ACTIONS.JOINED, ({clients, username, socketId}) => {
-                if(username !== location.state?.username) {
+                if(username !== location.state ? location.state.username : undefined) {
                     toast.success(`${username} joined the room`);
                     console.log(`${username} joined`);
                 }
