@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {v4 as uuidV4} from 'uuid';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const [roomId, setRoomId] = useState('');
@@ -65,7 +66,7 @@ const Home = () => {
                     <button className='btn joinBtn' onClick={joinRoom}>Join</button>
                     <span className='createInfo'>
                      If you do not have an invite then Create &nbsp;
-                        <a onClick={createNewRoom} href='' className='createNewBtn'>New Room</a>
+                        <Link onClick={createNewRoom} to="#" className='createNewBtn'>New Room</Link>
                     </span>
                 </div>
             </div>
