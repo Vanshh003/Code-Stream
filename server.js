@@ -2,22 +2,10 @@ const express = require('express');
 const {Server} = require('socket.io');
 const http = require('http');
 const ACTIONS = require('./src/Actions');
-const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
-
-app.use(cors({
-    origin: 'https://code-with-vansh.onrender.com',  // Allow the frontend URL
-    methods: ['GET', 'POST']
-}));
-
-const io = new Server(server, {
-    cors: {
-        origin: 'https://code-with-vansh.onrender.com',  // Frontend URL
-        methods: ['GET', 'POST']
-    }
-});
+const io = new Server(server);
 
 const userSocketMap = {};
 
@@ -74,5 +62,5 @@ io.on('connection', (socket) => {
 });
 
 
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 server.listen(PORT, () => console.log(`listening on port ${PORT}`));
