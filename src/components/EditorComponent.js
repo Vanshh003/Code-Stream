@@ -15,10 +15,8 @@ const EditorComponent = ({ socketRef, roomId, onCodeChange }) => {
     };
 
     useEffect(() => {
-        const socket = socketRef.current;
-
-        if (socket) {
-            socket.on(ACTIONS.CODE_CHANGE, ({ code }) => {
+        if (socketRef.current) {
+            socketRef.current.on(ACTIONS.CODE_CHANGE, ({ code }) => {
                 if (code !== null && editorRef.current) {
                     const editor = editorRef.current.getModel();
                     const currentCode = editor.getValue();
@@ -30,11 +28,11 @@ const EditorComponent = ({ socketRef, roomId, onCodeChange }) => {
         }
 
         return () => {
-            if (socket) {
-                socket.off(ACTIONS.CODE_CHANGE);
+            if (socketRef.current) {
+                socketRef.current.off(ACTIONS.CODE_CHANGE);
             }
         };
-    }, [socketRef, roomId]);
+    }, []);
 
     return (
         <div className="monaco-editor-container">
