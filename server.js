@@ -9,6 +9,11 @@ const io = new Server(server);
 
 const userSocketMap = {};
 
+// Health check route
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
 function getAllConnectedClients(roomId) {
     return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
         (socketId) => {
