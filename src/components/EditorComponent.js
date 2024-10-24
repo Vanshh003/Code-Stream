@@ -9,9 +9,7 @@ const EditorComponent = ({ socketRef, roomId, onCodeChange }) => {
     const handleEditorChange = (value) => {
         const code = value;
         onCodeChange(code);
-        if (socketRef.current) {
-            socketRef.current.emit(ACTIONS.CODE_CHANGE, { roomId, code });
-        }
+        socketRef.current.emit(ACTIONS.CODE_CHANGE, { roomId, code });
     };
 
     useEffect(() => {
