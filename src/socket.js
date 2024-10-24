@@ -9,7 +9,7 @@ export const initSocket = async () => {
     };
 
     console.log(process.env);
-    const socket = io("http://localhost:8000", options);
+    const socket = io("https://code-stream-1rn1.onrender.com", options);
     
     socket.on('connect_error', (err) => {
         console.error('Socket connection error:', err);
